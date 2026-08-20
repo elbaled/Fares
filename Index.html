@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مليونية فارس | دعوة زفاف</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:"Tahoma","Arial",sans-serif;
+    background:#080604;
+    color:#fff;
+    overflow-x:hidden;
+}
+
+/* =========================
+   شاشة البداية
+========================= */
+
+.intro{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:
+        radial-gradient(circle at center,#3b250d 0%,#110b05 45%,#030303 100%);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    transition:1.5s;
+}
+
+.intro.hide{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.intro-content{
+    animation:introShow 2s ease;
+}
+
+.family-small{
+    color:#d7ae55;
+    font-size:20px;
+    letter-spacing:3px;
+    margin-bottom:25px;
+}
+
+.million{
+    font-size:clamp(45px,12vw,100px);
+    font-weight:900;
+    color:#e6bd63;
+    text-shadow:
+        0 0 10px #9d6a19,
+        0 0 30px #c28b2e,
+        0 0 70px #6f4510;
+    animation:goldPulse 2s infinite alternate;
+}
+
+.subtitle{
+    font-size:22px;
+    margin-top:20px;
+    color:#fff1c9;
+}
+
+.open-btn{
+    margin-top:45px;
+    border:1px solid #d4a94d;
+    background:linear-gradient(135deg,#9c681b,#e3bd65,#8d5a12);
+    color:#140d04;
+    padding:15px 45px;
+    border-radius:50px;
+    font-size:19px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 0 30px #9c6c25;
+    transition:.3s;
+}
+
+.open-btn:hover{
+    transform:scale(1.08);
+}
+
+/* =========================
+   الخلفية
+========================= */
+
+#particles{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+}
+
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-1;
+    background:
+      radial-gradient(circle at 50% 20%,rgba(170,110,25,.16),transparent 35%),
+      linear-gradient(180deg,#0d0905,#050403 70%);
+}
+
+/* =========================
+   المحتوى
+========================= */
+
+.page{
+    min-height:100vh;
+}
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:40px 20px;
+    position:relative;
+}
+
+.hero-content{
+    max-width:900px;
+    animation:fadeUp 1.8s ease;
+}
+
+.crown{
+    font-size:55px;
+    margin-bottom:15px;
+    filter:drop-shadow(0 0 15px #d4a84d);
+}
+
+.family{
+    color:#d7ad59;
+    font-size:24px;
+    margin-bottom:10px;
+}
+
+.house{
+    color:#c9c9c9;
+    font-size:18px;
+    margin-bottom:35px;
+}
+
+.invitation{
+    color:#eee;
+    font-size:19px;
+    line-height:2;
+}
+
+.names{
+    margin:25px 0;
+}
+
+.groom,
+.bride{
+    display:block;
+    font-size:clamp(34px,8vw,65px);
+    color:#e6c16b;
+    font-weight:bold;
+    text-shadow:0 0 25px rgba(207,159,61,.5);
+}
+
+.and{
+    display:block;
+    color:#fff;
+    font-size:25px;
+    margin:8px;
+}
+
+.divider{
+    width:180px;
+    height:1px;
+    background:linear-gradient(90deg,transparent,#d6ad57,transparent);
+    margin:25px auto;
+}
+
+/* =========================
+   الأقسام
+========================= */
+
+.section{
+    padding:90px 20px;
+    text-align:center;
+}
+
+.section-title{
+    color:#e1b95f;
+    font-size:32px;
+    margin-bottom:40px;
+}
+
+.cards{
+    max-width:900px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(218,175,82,.35);
+    border-radius:25px;
+    padding:35px 20px;
+    backdrop-filter:blur(8px);
+    box-shadow:0 10px 40px rgba(0,0,0,.3);
+    transition:.4s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    border-color:#d9ae54;
+    box-shadow:0 0 35px rgba(197,145,45,.2);
+}
+
+.card-icon{
+    font-size:45px;
+    margin-bottom:15px;
+}
+
+.card h3{
+    color:#e1b95f;
+    margin-bottom:18px;
+    font-size:25px;
+}
+
+.card p{
+    line-height:2;
+    color:#eee;
+}
+
+/* =========================
+   العد التنازلي
+========================= */
+
+.countdown{
+    max-width:850px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.time-box{
+    padding:20px 8px;
+    border-radius:18px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(210,167,76,.3);
+}
+
+.time-box span{
+    display:block;
+    font-size:38px;
+    color:#e4bd65;
+    font-weight:bold;
+}
+
+.time-box small{
+    color:#bbb;
+}
+
+/* =========================
+   الموقع
+========================= */
+
+.map-btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 25px;
+    border-radius:30px;
+    background:#b17a24;
+    color:#fff;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.map-btn:hover{
+    background:#d19c3d;
+    transform:scale(1.05);
+}
+
+/* =========================
+   الخاتمة
+========================= */
+
+.final{
+    min-height:70vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:40px 20px;
+}
+
+.final h2{
+    font-size:clamp(38px,8vw,70px);
+    color:#e2b95f;
+    text-shadow:0 0 30px #805817;
+}
+
+.final p{
+    margin-top:25px;
+    font-size:20px;
+    color:#ddd;
+    line-height:2;
+}
+
+.footer{
+    padding:30px;
+    text-align:center;
+    color:#777;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+/* =========================
+   زر الموسيقى
+========================= */
+
+.music{
+    position:fixed;
+    left:20px;
+    bottom:20px;
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    border:1px solid #d2a84e;
+    background:#171006;
+    color:#e4bd65;
+    font-size:22px;
+    z-index:100;
+    cursor:pointer;
+    box-shadow:0 0 20px rgba(210,165,70,.3);
+}
+
+/* =========================
+   الألعاب النارية
+========================= */
+
+.firework{
+    position:fixed;
+    width:5px;
+    height:5px;
+    background:#e6bd63;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:50;
+    animation:explode 1.5s ease-out forwards;
+}
+
+@keyframes explode{
+    0%{
+        transform:scale(1);
+        opacity:1;
+    }
+    100%{
+        transform:
+          translate(var(--x),var(--y))
+          scale(.1);
+        opacity:0;
+    }
+}
+
+@keyframes introShow{
+    from{
+        opacity:0;
+        transform:scale(.7);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+@keyframes goldPulse{
+    from{filter:brightness(.9);}
+    to{filter:brightness(1.35);}
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@media(max-width:600px){
+    .countdown{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .time-box span{
+        font-size:30px;
+    }
+
+    .section{
+        padding:65px 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- شاشة البداية -->
+<div class="intro" id="intro">
+    <div class="intro-content">
+        <div class="family-small">آل المصري</div>
+
+        <div class="million">
+            ⚔️ مليونية فارس ⚔️
+        </div>
+
+        <div class="subtitle">
+            بيت الحاج محمد عبد النعيم
+        </div>
+
+        <button class="open-btn" onclick="openInvitation()">
+            ✨ افتح الدعوة ✨
+        </button>
+    </div>
+</div>
+
+<canvas id="particles"></canvas>
+
+<!-- المحتوى -->
+<main class="page">
+
+<section class="hero">
+
+<div class="hero-content">
+
+    <div class="crown">👑</div>
+
+    <div class="family">
+        آل المصري
+    </div>
+
+    <div class="house">
+        بيت الحاج محمد عبد النعيم
+    </div>
+
+    <div class="invitation">
+        بكل الحب والفرح والسرور
+        <br>
+        نتشرف بدعوتكم لمشاركتنا فرحتنا
+    </div>
+
+    <div class="names">
+
+        <span class="groom">
+            إسلام محمد عبد النعيم
+        </span>
+
+        <span class="and">
+            ♥
+        </span>
+
+        <span class="bride">
+            كريمة الثاني
+        </span>
+
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="invitation">
+        في ليلة من أجمل ليالي العمر
+        <br>
+        ننتظر تشريفكم ومشاركتكم فرحتنا
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- الحنة -->
+<section class="section">
+
+<h2 class="section-title">
+    🌹 ليلة الحنة 🌹
+</h2>
+
+<div class="cards">
+
+<div class="card">
+
+<div class="card-icon">📅</div>
+
+<h3>الموعد</h3>
+
+<p>
+الخميس<br>
+<strong>29 / 10 / 2026</strong>
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="card-icon">🎤</div>
+
+<h3>نجمة الحنة</h3>
+
+<p>
+بحضور الفنان
+<br>
+<strong>أحمد عادل</strong>
+<br>
+كروان الصعيد
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="card-icon">📍</div>
+
+<h3>المكان</h3>
+
+<p>
+المنيا – مركز المنيا
+<br>
+قرية منشأة الذهب القبلية
+</p>
+
+<a
+class="map-btn"
+target="_blank"
+href="https://www.google.com/maps/search/?api=1&query=منشأة+الذهب+القبلية+المنيا">
+📍 افتح الموقع
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- الزفاف -->
+<section class="section">
+
+<h2 class="section-title">
+    👑 ليلة الزفاف 👑
+</h2>
+
+<div class="cards">
+
+<div class="card">
+
+<div class="card-icon">📅</div>
+
+<h3>الموعد</h3>
+
+<p>
+الأحد
+<br>
+<strong>1 / 11 / 2026</strong>
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="card-icon">🏛️</div>
+
+<h3>قاعة الزفاف</h3>
+
+<p>
+<strong>قاعة القصر VIP</strong>
+<br>
+القوات المسلحة
+</p>
+
+<a
+class="map-btn"
+target="_blank"
+href="https://www.google.com/maps/search/?api=1&query=قاعة+القصر+VIP+القوات+المسلحة+المنيا">
+📍 الموقع
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- العد التنازلي -->
+<section class="section">
+
+<h2 class="section-title">
+    ⏳ باقي على ليلة الفرح
+</h2>
+
+<div class="countdown">
+
+<div class="time-box">
+<span id="days">00</span>
+<small>يوم</small>
+</div>
+
+<div class="time-box">
+<span id="hours">00</span>
+<small>ساعة</small>
+</div>
+
+<div class="time-box">
+<span id="minutes">00</span>
+<small>دقيقة</small>
+</div>
+
+<div class="time-box">
+<span id="seconds">00</span>
+<small>ثانية</small>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- النهاية -->
+<section class="final">
+
+<div>
+
+<div class="crown">👑</div>
+
+<h2>
+مليونية فارس
+</h2>
+
+<p>
+إسلام ❤️ كريمة
+<br>
+نسعد بوجودكم بيننا
+<br>
+وتكتمل فرحتنا بتشريفكم
+</p>
+
+</div>
+
+</section>
+
+<footer class="footer">
+    آل المصري © 2026
+</footer>
+
+</main>
+
+
+<!-- زر الموسيقى -->
+<button class="music" onclick="toggleMusic()" id="musicBtn">
+    🔇
+</button>
+
+<!-- موسيقى اختيارية -->
+<audio id="music" loop>
+    <!-- ضع ملف الموسيقى هنا باسم music.mp3 -->
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+
+<script>
+
+/* =========================
+   فتح الدعوة
+========================= */
+
+function openInvitation(){
+
+    document.getElementById("intro").classList.add("hide");
+
+    startFireworks();
+
+    setTimeout(()=>{
+        document.querySelector(".hero").scrollIntoView({
+            behavior:"smooth"
+        });
+    },700);
+}
+
+
+/* =========================
+   الموسيقى
+========================= */
+
+let music=document.getElementById("music");
+let musicBtn=document.getElementById("musicBtn");
+
+function toggleMusic(){
+
+    if(music.paused){
+
+        music.play().catch(()=>{});
+
+        musicBtn.innerHTML="🔊";
+
+    }else{
+
+        music.pause();
+
+        musicBtn.innerHTML="🔇";
+
+    }
+
+}
+
+
+/* =========================
+   العد التنازلي
+========================= */
+
+const weddingDate =
+new Date("November 1, 2026 20:00:00").getTime();
+
+function countdown(){
+
+    const now=new Date().getTime();
+
+    const distance=weddingDate-now;
+
+    if(distance<=0){
+
+        document.getElementById("days").innerText="00";
+        document.getElementById("hours").innerText="00";
+        document.getElementById("minutes").innerText="00";
+        document.getElementById("seconds").innerText="00";
+
+        return;
+    }
+
+    const days=Math.floor(
+        distance/(1000*60*60*24)
+    );
+
+    const hours=Math.floor(
+        (distance%(1000*60*60*24))/(1000*60*60)
+    );
+
+    const minutes=Math.floor(
+        (distance%(1000*60*60))/(1000*60)
+    );
+
+    const seconds=Math.floor(
+        (distance%(1000*60))/1000
+    );
+
+    document.getElementById("days").innerText=
+        String(days).padStart(2,"0");
+
+    document.getElementById("hours").innerText=
+        String(hours).padStart(2,"0");
+
+    document.getElementById("minutes").innerText=
+        String(minutes).padStart(2,"0");
+
+    document.getElementById("seconds").innerText=
+        String(seconds).padStart(2,"0");
+}
+
+countdown();
+
+setInterval(countdown,1000);
+
+
+/* =========================
+   الألعاب النارية
+========================= */
+
+function createFirework(){
+
+    const centerX=
+        Math.random()*window.innerWidth;
+
+    const centerY=
+        Math.random()*
+        (window.innerHeight*.6)+100;
+
+    for(let i=0;i<35;i++){
+
+        const particle=
+            document.createElement("div");
+
+        particle.className="firework";
+
+        particle.style.left=
+            centerX+"px";
+
+        particle.style.top=
+            centerY+"px";
+
+        const angle=
+            Math.random()*Math.PI*2;
+
+        const distance=
+            50+Math.random()*150;
+
+        particle.style.setProperty(
+            "--x",
+            Math.cos(angle)*distance+"px"
+        );
+
+        particle.style.setProperty(
+            "--y",
+            Math.sin(angle)*distance+"px"
+        );
+
+        document.body.appendChild(particle);
+
+        setTimeout(()=>{
+            particle.remove();
+        },1600);
+    }
+}
+
+function startFireworks(){
+
+    createFirework();
+
+    setTimeout(createFirework,500);
+
+    setTimeout(createFirework,1000);
+
+    setTimeout(createFirework,1700);
+}
+
+
+/* =========================
+   نجوم متحركة
+========================= */
+
+const canvas=
+    document.getElementById("particles");
+
+const ctx=
+    canvas.getContext("2d");
+
+let stars=[];
+
+function resizeCanvas(){
+
+    canvas.width=
+        window.innerWidth;
+
+    canvas.height=
+        window.innerHeight;
+
+    stars=[];
+
+    for(let i=0;i<100;i++){
+
+        stars.push({
+
+            x:Math.random()*canvas.width,
+
+            y:Math.random()*canvas.height,
+
+            r:Math.random()*2,
+
+            speed:.2+Math.random()*.5
+
+        });
+
+    }
+}
+
+resizeCanvas();
+
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
+
+function animateStars(){
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    ctx.fillStyle=
+        "rgba(225,185,95,.7)";
+
+    stars.forEach(star=>{
+
+        ctx.beginPath();
+
+        ctx.arc(
+            star.x,
+            star.y,
+            star.r,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+        star.y-=star.speed;
+
+        if(star.y<0)
+            star.y=canvas.height;
+
+    });
+
+    requestAnimationFrame(
+        animateStars
+    );
+}
+
+animateStars();
+
+</script>
+
+</body>
+</html>
