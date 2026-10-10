@@ -86,3 +86,200 @@ footer{text-align:center;padding:18px;color:#8c7859;background:#090707;font-size
 @keyframes float{0%,100%{transform:translateY(-10px);opacity:.6}50%{transform:translateY(25px);opacity:1}}
 @media(max-width:560px){.scene{padding:90px 18px}.topbar{padding:15px 18px}.brand{font-size:12px}.top-cta{font-size:11px;padding:7px 11px}.hero-name{font-size:37px}.event-card{padding:15px 12px;gap:11px}.event-content h4{font-size:16px}.event-icon{flex-basis:36px;width:36px;height:36px}.friends-photo{border-width:3px}.friends-photo figcaption{font-size:18px}.invitation-frame{padding:36px 16px}.hero:before{inset:9px}.hero:after{inset:15px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* =========================================
+   مشغل أغنية أحمد عادل - كروان الصعيد
+   ========================================= */
+
+.wedding-music {
+  position: relative;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) 48px;
+  align-items: center;
+  gap: 12px;
+  width: min(430px, calc(100% - 10px));
+  margin: 28px auto 22px;
+  padding: 18px;
+  text-align: right;
+  direction: rtl;
+  border: 1px solid rgba(215, 177, 95, .55);
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      circle at 10% 10%,
+      rgba(202, 157, 69, .16),
+      transparent 55%
+    ),
+    linear-gradient(145deg, rgba(31, 23, 16, .97), rgba(12, 9, 9, .97));
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, .3),
+    inset 0 0 20px rgba(215, 177, 95, .035);
+  backdrop-filter: blur(12px);
+}
+
+.music-disc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border: 2px solid #c7a25b;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(
+      circle,
+      #201810 0,
+      #201810 3px,
+      #382b1a 4px,
+      #15100d 6px
+    );
+  box-shadow: 0 0 18px rgba(215, 177, 95, .13);
+}
+
+.music-disc span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  color: #20150a;
+  background: linear-gradient(135deg, #f6e5b5, #b58a3c);
+  font-size: 17px;
+}
+
+.wedding-music.is-playing .music-disc {
+  animation: musicVinylSpin 4s linear infinite;
+}
+
+.music-details {
+  min-width: 0;
+}
+
+.music-label {
+  margin: 0 0 3px;
+  color: #c5a666;
+  font-size: 10px;
+}
+
+.music-details h3 {
+  margin: 0;
+  color: #f7e7c1;
+  font-family: "Cairo", sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.music-artist {
+  margin: 3px 0 0;
+  color: #a99a80;
+  font-size: 11px;
+}
+
+.music-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid #f2dca7;
+  border-radius: 50%;
+  color: #1a1209;
+  background: linear-gradient(135deg, #f8e8bb, #bc9142);
+  font-size: 17px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, .25);
+  transition: transform .2s, box-shadow .2s;
+}
+
+.music-toggle:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 20px rgba(215, 177, 95, .22);
+}
+
+.music-toggle:focus-visible,
+.music-progress:focus-visible {
+  outline: 2px solid #fff0bb;
+  outline-offset: 4px;
+}
+
+.music-progress-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 42px;
+  align-items: center;
+  gap: 9px;
+  margin-top: 7px;
+  direction: ltr;
+}
+
+.music-progress-wrap span {
+  color: #c7b895;
+  font-size: 10px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.music-progress {
+  display: block;
+  width: 100%;
+  height: 5px;
+  margin: 0;
+  border-radius: 10px;
+  accent-color: #d5af62;
+  cursor: pointer;
+}
+
+.music-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #cbb783;
+  font-size: 11px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.artist-music-button {
+  margin-top: 22px;
+  cursor: pointer;
+  font-family: "Cairo", sans-serif;
+}
+
+@keyframes musicVinylSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 420px) {
+  .wedding-music {
+    grid-template-columns: 48px minmax(0, 1fr) 42px;
+    gap: 9px;
+    padding: 13px;
+  }
+
+  .music-disc {
+    width: 48px;
+    height: 48px;
+  }
+
+  .music-toggle {
+    width: 42px;
+    height: 42px;
+  }
+
+  .music-details h3 {
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wedding-music.is-playing .music-disc {
+    animation: none;
+  }
+}
