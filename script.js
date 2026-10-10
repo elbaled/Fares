@@ -2,10 +2,109 @@
 /* =========================================
    Fares Wedding Invitation
    Journey + Envelope + Music Player
+   + Cinematic Intro
    ========================================= */
 
 
-/* 1. Reveal animations */
+/* =========================================
+   0. Cinematic Intro
+   ========================================= */
+
+(() => {
+  const intro = document.getElementById("cinematicIntro");
+  const enterButton = document.getElementById("enterInvitation");
+  const skipButton = document.getElementById("skipIntro");
+
+  if (!intro) {
+    document.body.classList.remove("intro-locked");
+    return;
+  }
+
+  let introFinished = false;
+
+  /*
+   * قفل التمرير أثناء ظهور المقدمة.
+   * لا يتم تشغيل أي صوت أو موسيقى تلقائيًا.
+   */
+
+  document.body.classList.add("intro-locked");
+
+  /*
+   * إضافة الكلاس بعد تحميل الصفحة لبدء الحركات
+   * التي سنضيف تنسيقاتها داخل style.css.
+   */
+
+  requestAnimationFrame(() => {
+    intro.classList.add("intro-ready");
+  });
+
+  function finishIntro() {
+    if (introFinished) return;
+
+    introFinished = true;
+
+    intro.classList.add("intro-exit");
+
+    document.body.classList.remove("intro-locked");
+    document.body.classList.add("intro-finished");
+
+    if (enterButton) {
+      enterButton.disabled = true;
+    }
+
+    if (skipButton) {
+      skipButton.disabled = true;
+    }
+
+    /*
+     * بعد انتهاء انتقال الاختفاء، يتم إخفاء المقدمة
+     * تمامًا حتى لا تمنع الضغط على عناصر الموقع.
+     */
+
+    window.setTimeout(() => {
+      intro.hidden = true;
+      intro.setAttribute("aria-hidden", "true");
+    }, 900);
+  }
+
+  if (enterButton) {
+    enterButton.addEventListener("click", finishIntro);
+  }
+
+  if (skipButton) {
+    skipButton.addEventListener("click", finishIntro);
+  }
+
+  /*
+   * السماح بتخطي المقدمة باستخدام زر Escape.
+   */
+
+  document.addEventListener("keydown", (event) => {
+    if (
+      event.key === "Escape" &&
+      !introFinished
+    ) {
+      finishIntro();
+    }
+  });
+
+  /*
+   * دعم الأجهزة التي تفضل تقليل الحركة.
+   * تظل أزرار الدخول والتخطي متاحة.
+   */
+
+  if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    intro.classList.add("intro-reduced-motion");
+  }
+})();
+
+
+/* =========================================
+   1. Reveal animations
+   ========================================= */
 
 const revealEls = document.querySelectorAll(".reveal");
 
@@ -28,7 +127,9 @@ if ("IntersectionObserver" in window) {
 }
 
 
-/* 2. Navigation helper */
+/* =========================================
+   2. Navigation helper
+   ========================================= */
 
 function scrollToSection(section) {
   if (!section) return;
@@ -42,7 +143,18 @@ function scrollToSection(section) {
 function addNextButton(section, nextSection, label, id) {
   if (!section || !nextSection) return null;
 
+  /*
+   * منع تكرار الزر إذا تم استدعاء الدالة مرة أخرى.
+   */
+
+  const existingButton = document.getElementById(id);
+
+  if (existingButton) {
+    return existingButton;
+  }
+
   const button = document.createElement("button");
+
   button.type = "button";
   button.className = "gold-button journey-next-button";
   button.id = id;
@@ -54,11 +166,14 @@ function addNextButton(section, nextSection, label, id) {
   });
 
   section.appendChild(button);
+
   return button;
 }
 
 
-/* 3. Start journey */
+/* =========================================
+   3. Start journey
+   ========================================= */
 
 const startButton = document.getElementById("startJourney");
 const journey = document.getElementById("journey");
@@ -95,7 +210,9 @@ if (startButton) {
 }
 
 
-/* 4. Envelope opening */
+/* =========================================
+   4. Envelope opening
+   ========================================= */
 
 const envelopeWrap = document.getElementById("envelopeWrap");
 const openEnvelopeButton = document.getElementById("openEnvelope");
@@ -108,10 +225,12 @@ if (envelopeWrap && openEnvelopeButton) {
     if (envelopeOpened) return;
 
     envelopeOpened = true;
+
     envelopeWrap.classList.add("open");
 
     openEnvelopeButton.innerHTML = "تم فتح الدعوة ✦";
     openEnvelopeButton.disabled = true;
+
     openEnvelopeButton.setAttribute("aria-expanded", "true");
 
     const nextButton = addNextButton(
@@ -128,7 +247,9 @@ if (envelopeWrap && openEnvelopeButton) {
 }
 
 
-/* 5. Add a button below each stage */
+/* =========================================
+   5. Add a button below each stage
+   ========================================= */
 
 const friendsSection = document.querySelector(".friends");
 const artistSection = document.querySelector(".artist");
@@ -156,17 +277,22 @@ addNextButton(
 );
 
 
-/* 6. Back to top */
+/* =========================================
+   6. Back to top
+   ========================================= */
 
 document.querySelectorAll(".back-top").forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
+
     scrollToSection(document.getElementById("top"));
   });
 });
 
 
-/* 7. Moving light trail */
+/* =========================================
+   7. Moving light trail
+   ========================================= */
 
 const lightTrail = document.querySelector(".light-trail");
 const trailDot = document.querySelector(".trail-dot");
@@ -260,12 +386,14 @@ updateLightTrail();
       status.textContent = "جاري تشغيل الأغنية...";
 
       /*
-       * Keep the audio source defined in index.html:
+       * الاحتفاظ بمصدر الصوت الموجود في index.html:
        * assets/ahmed-adel.mp3
        */
+
       await audio.play();
 
       updatePlayButtons(true);
+
       status.textContent = "الأغنية تعمل الآن 🎶";
     } catch (error) {
       updatePlayButtons(false);
@@ -284,7 +412,9 @@ updateLightTrail();
 
   function pauseMusic() {
     audio.pause();
+
     updatePlayButtons(false);
+
     status.textContent = "الأغنية متوقفة مؤقتًا";
   }
 
@@ -362,6 +492,7 @@ updateLightTrail();
 
   audio.addEventListener("play", () => {
     updatePlayButtons(true);
+
     status.textContent = "الأغنية تعمل الآن 🎶";
   });
 
@@ -371,6 +502,7 @@ updateLightTrail();
 
   audio.addEventListener("ended", () => {
     updatePlayButtons(false);
+
     progress.value = "0";
 
     if (currentTimeLabel) {
@@ -392,5 +524,7 @@ updateLightTrail();
     );
   });
 
-  /* Do not start music automatically. */
+  /*
+   * لا يتم تشغيل الموسيقى تلقائيًا.
+   */
 })();
