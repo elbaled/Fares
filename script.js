@@ -1,70 +1,186 @@
+
+/* =========================================
+   Wedding Invitation - Fares
+   Envelope Animation + Reveal Effects
+   + Wedding Music Player
+   ========================================= */
+
+
+/* =========================================
+   1. Reveal Animation
+   ========================================= */
+
 const revealEls = document.querySelectorAll(".reveal");
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("visible");
-      observer.unobserve(entry.target);
+
+if ("IntersectionObserver" in window) {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.14
     }
-  });
-}, { threshold: 0.14 });
-revealEls.forEach((el) => observer.observe(el));
+  );
+
+  revealEls.forEach((el) => observer.observe(el));
+} else {
+  revealEls.forEach((el) => el.classList.add("visible"));
+}
+
+
+/* =========================================
+   2. Start Wedding Journey
+   ========================================= */
 
 const startButton = document.getElementById("startJourney");
 const journey = document.getElementById("journey");
 const beam = document.querySelector(".beam");
-startButton?.addEventListener("click", () => {
-  beam?.animate(
-    [{ opacity: 0, transform: "translateX(-20%) rotate(-19deg)" },
-     { opacity: 1, transform: "translateX(15%) rotate(-19deg)", offset: .45 },
-     { opacity: 0, transform: "translateX(45%) rotate(-19deg)" }],
-    { duration: 1000, easing: "ease-in-out" }
-  );
-  setTimeout(() => journey?.scrollIntoView({ behavior: "smooth" }), 250);
-});
 
-const envelopeWrap = document.getElementById("envelopeWrap");
-const openButton = document.getElementById("openEnvelope");
-openButton?.addEventListener("click", () => {
-  const opened = envelopeWrap.classList.toggle("open");
-  openButton.innerHTML = opened ? "الدعوة اتفتحت ✦" : 'افتح الدعوة <span>✦</span>';
-  if (opened) {
-    setTimeout(() => document.getElementById("invitation")?.scrollIntoView({ behavior: "smooth", block: "start" }), 1300);
-  }
-});
+if (startButton) {
+  startButton.addEventListener("click", () => {
+    if (beam && typeof beam.animate === "function") {
+      beam.animate(
+        [
+          {
+            opacity: 0,
+            transform: "translateX(-20%) rotate(-19deg)"
+          },
+          {
+            opacity: 1,
+            transform: "translateX(15%) rotate(-19deg)",
+            offset: 0.45
+          },
+          {
+            opacity: 0,
+            transform: "translateX(45%) rotate(-19deg)"
+          }
+        ],
+        {
+          duration: 1000,
+          easing: "ease-in-out"
+        }
+      );
+    }
 
-// Keep a subtle light moving with scroll, without using flashing effects.
-window.addEventListener("scroll", () => {
-  const trail = document.querySelector(".light-trail");
-  if (!trail) return;
-  const rect = trail.getBoundingClientRect();
-  const dot = document.querySelector(".trail-dot");
-  if (dot) {
-    const progress = Math.max(0, Math.min(1, (window.innerHeight * 0.7 - rect.top) / (window.innerHeight + rect.height)));
-    dot.style.top = `${progress * 75}%`;
-  }
-}, { passive: true });
+    journey?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  });
+}
 
 
 /* =========================================
-   Wedding Music Player
+   3. Cinematic Envelope Opening
+   ========================================= */
+
+const envelopeWrap = document.getElementById("envelopeWrap");
+const openButton = document.getElementById("openEnvelope");
+const invitationSection = document.getElementById("invitation");
+
+if (envelopeWrap && openButton) {
+  openButton.addEventListener("click", () => {
+    const isOpen = envelopeWrap.classList.contains("open");
+
+    /*
+     * First click:
+     * Open the envelope and reveal the letter.
+     * Do not scroll automatically.
+     */
+    if (!isOpen) {
+      envelopeWrap.classList.add("open");
+
+      openButton.innerHTML =
+        'انتقل لتفاصيل الفرح <span>↓</span>';
+
+      openButton.setAttribute(
+        "aria-label",
+        "انتقل إلى تفاصيل الحنة والفرح"
+      );
+
+      openButton.setAttribute("aria-expanded", "true");
+
+      return;
+    }
+
+    /*
+     * Second click:
+     * The visitor has had time to read the letter.
+     * Move to the invitation details only when requested.
+     */
+    if (invitationSection) {
+      invitationSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  });
+}
+
+
+/* =========================================
+   4. Moving Light Trail
+   ========================================= */
+
+const trail = document.querySelector(".light-trail");
+const trailDot = document.querySelector(".trail-dot");
+
+function updateLightTrail() {
+  if (!trail || !trailDot) {
+    return;
+  }
+
+  const rect = trail.getBoundingClientRect();
+
+  const progress = Math.max(
+    0,
+    Math.min(
+      1,
+      (window.innerHeight * 0.7 - rect.top) /
+        (window.innerHeight + rect.height)
+    )
+  );
+
+  trailDot.style.top = `${progress * 75}%`;
+}
+
+window.addEventListener(
+  "scroll",
+  updateLightTrail,
+  { passive: true }
+);
+
+updateLightTrail();
+
+
+/* =========================================
+   5. Wedding Music Player
    Ahmed Adel - Karawan El Saeed
    ========================================= */
 
 (() => {
   const audio = document.getElementById("weddingAudio");
   const player = document.getElementById("weddingMusicPlayer");
+
   const toggleButton = document.getElementById("musicToggle");
   const toggleIcon = document.getElementById("musicToggleIcon");
+
   const progress = document.getElementById("musicProgress");
-  const currentTimeLabel = document.getElementById("musicCurrentTime");
-  const durationLabel = document.getElementById("musicDuration");
+  const currentTimeLabel =
+    document.getElementById("musicCurrentTime");
+  const durationLabel =
+    document.getElementById("musicDuration");
   const status = document.getElementById("musicStatus");
 
-  const artistButton = document.getElementById("artistMusicButton");
-  const artistIcon = document.getElementById("artistMusicIcon");
-
-  const startJourney = document.getElementById("startJourney");
-  const openEnvelope = document.getElementById("openEnvelope");
+  const artistButton =
+    document.getElementById("artistMusicButton");
+  const artistIcon =
+    document.getElementById("artistMusicIcon");
 
   if (!audio || !toggleButton || !progress || !status) {
     return;
@@ -72,6 +188,7 @@ window.addEventListener("scroll", () => {
 
   let seeking = false;
 
+  /* Format seconds as MM:SS. */
   function formatTime(seconds) {
     if (!Number.isFinite(seconds) || seconds < 0) {
       return "00:00";
@@ -87,12 +204,17 @@ window.addEventListener("scroll", () => {
     );
   }
 
+  /* Keep all music buttons synchronized. */
   function updatePlayButtons(isPlaying) {
-    toggleIcon.textContent = isPlaying ? "Ⅱ" : "▶";
+    if (toggleIcon) {
+      toggleIcon.textContent = isPlaying ? "Ⅱ" : "▶";
+    }
 
     toggleButton.setAttribute(
       "aria-label",
-      isPlaying ? "إيقاف الأغنية مؤقتًا" : "تشغيل الأغنية"
+      isPlaying
+        ? "إيقاف الأغنية مؤقتًا"
+        : "تشغيل الأغنية"
     );
 
     toggleButton.setAttribute(
@@ -109,6 +231,7 @@ window.addEventListener("scroll", () => {
     }
   }
 
+  /* Start playback after a visitor action. */
   async function playMusic() {
     try {
       status.textContent = "جاري تشغيل الأغنية...";
@@ -130,12 +253,15 @@ window.addEventListener("scroll", () => {
     }
   }
 
+  /* Pause playback. */
   function pauseMusic() {
     audio.pause();
+
     updatePlayButtons(false);
     status.textContent = "الأغنية متوقفة مؤقتًا";
   }
 
+  /* Toggle playback. */
   async function toggleMusic() {
     if (audio.paused) {
       await playMusic();
@@ -150,28 +276,45 @@ window.addEventListener("scroll", () => {
     artistButton.addEventListener("click", toggleMusic);
   }
 
+  /* Load the total duration. */
   audio.addEventListener("loadedmetadata", () => {
-    durationLabel.textContent = formatTime(audio.duration);
+    if (durationLabel) {
+      durationLabel.textContent = formatTime(audio.duration);
+    }
   });
 
   audio.addEventListener("durationchange", () => {
-    durationLabel.textContent = formatTime(audio.duration);
+    if (durationLabel) {
+      durationLabel.textContent = formatTime(audio.duration);
+    }
   });
 
+  /* Update the current playback time and progress bar. */
   audio.addEventListener("timeupdate", () => {
-    currentTimeLabel.textContent = formatTime(audio.currentTime);
+    if (currentTimeLabel) {
+      currentTimeLabel.textContent = formatTime(audio.currentTime);
+    }
 
-    if (!seeking && Number.isFinite(audio.duration) && audio.duration > 0) {
+    if (
+      !seeking &&
+      Number.isFinite(audio.duration) &&
+      audio.duration > 0
+    ) {
       progress.value = String(
         (audio.currentTime / audio.duration) * 100
       );
     }
   });
 
+  /* Preview the time while dragging the progress bar. */
   progress.addEventListener("input", () => {
     seeking = true;
 
-    if (Number.isFinite(audio.duration) && audio.duration > 0) {
+    if (
+      Number.isFinite(audio.duration) &&
+      audio.duration > 0 &&
+      currentTimeLabel
+    ) {
       const targetTime =
         (Number(progress.value) / 100) * audio.duration;
 
@@ -179,8 +322,12 @@ window.addEventListener("scroll", () => {
     }
   });
 
+  /* Seek to the selected playback position. */
   function seekAudio() {
-    if (Number.isFinite(audio.duration) && audio.duration > 0) {
+    if (
+      Number.isFinite(audio.duration) &&
+      audio.duration > 0
+    ) {
       audio.currentTime =
         (Number(progress.value) / 100) * audio.duration;
     }
@@ -189,11 +336,12 @@ window.addEventListener("scroll", () => {
   }
 
   progress.addEventListener("change", seekAudio);
-
   progress.addEventListener("pointerup", seekAudio);
 
+  /* Synchronize controls with the actual audio state. */
   audio.addEventListener("play", () => {
     updatePlayButtons(true);
+    status.textContent = "الأغنية تعمل الآن 🎶";
   });
 
   audio.addEventListener("pause", () => {
@@ -202,37 +350,29 @@ window.addEventListener("scroll", () => {
 
   audio.addEventListener("ended", () => {
     updatePlayButtons(false);
+
     progress.value = "0";
-    currentTimeLabel.textContent = "00:00";
+
+    if (currentTimeLabel) {
+      currentTimeLabel.textContent = "00:00";
+    }
+
     status.textContent = "انتهت الأغنية ❤️";
   });
 
   audio.addEventListener("error", () => {
     updatePlayButtons(false);
+
     status.textContent =
       "ملف الأغنية غير موجود أو تعذر تحميله. راجع اسم الملف ومكانه.";
   });
 
   /*
-   * لا نشغّل الصوت تلقائيًا عند فتح الصفحة.
-   * يمكن للزائر بدء الأغنية بنفسه من زر التشغيل.
+   * Important:
+   * Music does not start automatically.
+   * The visitor chooses when to play it.
+   *
+   * The envelope button is handled only once above.
+   * It no longer automatically scrolls away after opening.
    */
-
-  if (startJourney) {
-    startJourney.addEventListener("click", () => {
-      document.getElementById("journey")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    });
-  }
-
-  if (openEnvelope) {
-    openEnvelope.addEventListener("click", () => {
-      document.getElementById("invitation")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    });
-  }
 })();
