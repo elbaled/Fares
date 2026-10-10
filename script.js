@@ -1,41 +1,64 @@
 
 /* =========================================
-   Wedding Invitation - Fares
-   Envelope Animation + Reveal Effects
-   + Wedding Music Player
+   Fares Wedding Invitation
+   Journey + Envelope + Music Player
    ========================================= */
 
 
-/* =========================================
-   1. Reveal Animation
-   ========================================= */
+/* 1. Reveal animations */
 
 const revealEls = document.querySelectorAll(".reveal");
 
 if ("IntersectionObserver" in window) {
-  const observer = new IntersectionObserver(
+  const revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
+          revealObserver.unobserve(entry.target);
         }
       });
     },
-    {
-      threshold: 0.14
-    }
+    { threshold: 0.14 }
   );
 
-  revealEls.forEach((el) => observer.observe(el));
+  revealEls.forEach((element) => revealObserver.observe(element));
 } else {
-  revealEls.forEach((el) => el.classList.add("visible"));
+  revealEls.forEach((element) => element.classList.add("visible"));
 }
 
 
-/* =========================================
-   2. Start Wedding Journey
-   ========================================= */
+/* 2. Navigation helper */
+
+function scrollToSection(section) {
+  if (!section) return;
+
+  section.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
+function addNextButton(section, nextSection, label, id) {
+  if (!section || !nextSection) return null;
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "gold-button journey-next-button";
+  button.id = id;
+  button.textContent = label;
+  button.setAttribute("aria-label", label);
+
+  button.addEventListener("click", () => {
+    scrollToSection(nextSection);
+  });
+
+  section.appendChild(button);
+  return button;
+}
+
+
+/* 3. Start journey */
 
 const startButton = document.getElementById("startJourney");
 const journey = document.getElementById("journey");
@@ -67,75 +90,91 @@ if (startButton) {
       );
     }
 
-    journey?.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
+    scrollToSection(journey);
   });
 }
 
 
-/* =========================================
-   3. Cinematic Envelope Opening
-   ========================================= */
+/* 4. Envelope opening */
 
 const envelopeWrap = document.getElementById("envelopeWrap");
-const openButton = document.getElementById("openEnvelope");
+const openEnvelopeButton = document.getElementById("openEnvelope");
 const invitationSection = document.getElementById("invitation");
 
-if (envelopeWrap && openButton) {
-  openButton.addEventListener("click", () => {
-    const isOpen = envelopeWrap.classList.contains("open");
+let envelopeOpened = false;
 
-    /*
-     * First click:
-     * Open the envelope and reveal the letter.
-     * Do not scroll automatically.
-     */
-    if (!isOpen) {
-      envelopeWrap.classList.add("open");
+if (envelopeWrap && openEnvelopeButton) {
+  openEnvelopeButton.addEventListener("click", () => {
+    if (envelopeOpened) return;
 
-      openButton.innerHTML =
-        'انتقل لتفاصيل الفرح <span>↓</span>';
+    envelopeOpened = true;
+    envelopeWrap.classList.add("open");
 
-      openButton.setAttribute(
-        "aria-label",
-        "انتقل إلى تفاصيل الحنة والفرح"
-      );
+    openEnvelopeButton.innerHTML = "تم فتح الدعوة ✦";
+    openEnvelopeButton.disabled = true;
+    openEnvelopeButton.setAttribute("aria-expanded", "true");
 
-      openButton.setAttribute("aria-expanded", "true");
+    const nextButton = addNextButton(
+      document.getElementById("journey"),
+      invitationSection,
+      "انتقل إلى تفاصيل الحنة والفرح ↓",
+      "toInvitation"
+    );
 
-      return;
-    }
-
-    /*
-     * Second click:
-     * The visitor has had time to read the letter.
-     * Move to the invitation details only when requested.
-     */
-    if (invitationSection) {
-      invitationSection.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
+    if (nextButton) {
+      nextButton.classList.add("next-invitation-button");
     }
   });
 }
 
 
-/* =========================================
-   4. Moving Light Trail
-   ========================================= */
+/* 5. Add a button below each stage */
 
-const trail = document.querySelector(".light-trail");
+const friendsSection = document.querySelector(".friends");
+const artistSection = document.querySelector(".artist");
+const closingSection = document.querySelector(".closing");
+
+addNextButton(
+  invitationSection,
+  friendsSection,
+  "انتقل إلى صور فارس وأصحابه ↓",
+  "toFriends"
+);
+
+addNextButton(
+  friendsSection,
+  artistSection,
+  "انتقل إلى فقرة الفنان أحمد عادل ↓",
+  "toArtist"
+);
+
+addNextButton(
+  artistSection,
+  closingSection,
+  "انتقل إلى ختام الدعوة ↓",
+  "toClosing"
+);
+
+
+/* 6. Back to top */
+
+document.querySelectorAll(".back-top").forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    scrollToSection(document.getElementById("top"));
+  });
+});
+
+
+/* 7. Moving light trail */
+
+const lightTrail = document.querySelector(".light-trail");
 const trailDot = document.querySelector(".trail-dot");
 
 function updateLightTrail() {
-  if (!trail || !trailDot) {
-    return;
-  }
+  if (!lightTrail || !trailDot) return;
 
-  const rect = trail.getBoundingClientRect();
+  const rect = lightTrail.getBoundingClientRect();
 
   const progress = Math.max(
     0,
@@ -149,46 +188,37 @@ function updateLightTrail() {
   trailDot.style.top = `${progress * 75}%`;
 }
 
-window.addEventListener(
-  "scroll",
-  updateLightTrail,
-  { passive: true }
-);
+window.addEventListener("scroll", updateLightTrail, {
+  passive: true
+});
 
 updateLightTrail();
 
 
 /* =========================================
-   5. Wedding Music Player
-   Ahmed Adel - Karawan El Saeed
+   8. Wedding Music Player
    ========================================= */
 
 (() => {
   const audio = document.getElementById("weddingAudio");
   const player = document.getElementById("weddingMusicPlayer");
-
   const toggleButton = document.getElementById("musicToggle");
   const toggleIcon = document.getElementById("musicToggleIcon");
-
   const progress = document.getElementById("musicProgress");
-  const currentTimeLabel =
-    document.getElementById("musicCurrentTime");
-  const durationLabel =
-    document.getElementById("musicDuration");
+  const currentTimeLabel = document.getElementById("musicCurrentTime");
+  const durationLabel = document.getElementById("musicDuration");
   const status = document.getElementById("musicStatus");
 
-  const artistButton =
-    document.getElementById("artistMusicButton");
-  const artistIcon =
-    document.getElementById("artistMusicIcon");
+  const artistButton = document.getElementById("artistMusicButton");
+  const artistIcon = document.getElementById("artistMusicIcon");
 
   if (!audio || !toggleButton || !progress || !status) {
+    console.error("Music player elements are missing.");
     return;
   }
 
   let seeking = false;
 
-  /* Format seconds as MM:SS. */
   function formatTime(seconds) {
     if (!Number.isFinite(seconds) || seconds < 0) {
       return "00:00";
@@ -204,7 +234,6 @@ updateLightTrail();
     );
   }
 
-  /* Keep all music buttons synchronized. */
   function updatePlayButtons(isPlaying) {
     if (toggleIcon) {
       toggleIcon.textContent = isPlaying ? "Ⅱ" : "▶";
@@ -212,15 +241,10 @@ updateLightTrail();
 
     toggleButton.setAttribute(
       "aria-label",
-      isPlaying
-        ? "إيقاف الأغنية مؤقتًا"
-        : "تشغيل الأغنية"
+      isPlaying ? "إيقاف الأغنية مؤقتًا" : "تشغيل الأغنية"
     );
 
-    toggleButton.setAttribute(
-      "aria-pressed",
-      String(isPlaying)
-    );
+    toggleButton.setAttribute("aria-pressed", String(isPlaying));
 
     if (artistIcon) {
       artistIcon.textContent = isPlaying ? "Ⅱ" : "▶";
@@ -231,11 +255,14 @@ updateLightTrail();
     }
   }
 
-  /* Start playback after a visitor action. */
   async function playMusic() {
     try {
       status.textContent = "جاري تشغيل الأغنية...";
 
+      /*
+       * Keep the audio source defined in index.html:
+       * assets/ahmed-adel.mp3
+       */
       await audio.play();
 
       updatePlayButtons(true);
@@ -243,25 +270,24 @@ updateLightTrail();
     } catch (error) {
       updatePlayButtons(false);
 
+      console.error("Audio playback failed:", error);
+
       if (audio.error) {
         status.textContent =
-          "تعذر تحميل الأغنية. تأكد من وجود ملف MP3.";
+          "تعذر تحميل الأغنية. تأكد من وجود ملف assets/ahmed-adel.mp3.";
       } else {
         status.textContent =
-          "اضغط مرة أخرى لتشغيل الأغنية.";
+          "تعذر التشغيل. اضغط مرة أخرى أو تحقق من إعدادات الصوت.";
       }
     }
   }
 
-  /* Pause playback. */
   function pauseMusic() {
     audio.pause();
-
     updatePlayButtons(false);
     status.textContent = "الأغنية متوقفة مؤقتًا";
   }
 
-  /* Toggle playback. */
   async function toggleMusic() {
     if (audio.paused) {
       await playMusic();
@@ -276,7 +302,6 @@ updateLightTrail();
     artistButton.addEventListener("click", toggleMusic);
   }
 
-  /* Load the total duration. */
   audio.addEventListener("loadedmetadata", () => {
     if (durationLabel) {
       durationLabel.textContent = formatTime(audio.duration);
@@ -289,7 +314,6 @@ updateLightTrail();
     }
   });
 
-  /* Update the current playback time and progress bar. */
   audio.addEventListener("timeupdate", () => {
     if (currentTimeLabel) {
       currentTimeLabel.textContent = formatTime(audio.currentTime);
@@ -306,7 +330,6 @@ updateLightTrail();
     }
   });
 
-  /* Preview the time while dragging the progress bar. */
   progress.addEventListener("input", () => {
     seeking = true;
 
@@ -322,7 +345,6 @@ updateLightTrail();
     }
   });
 
-  /* Seek to the selected playback position. */
   function seekAudio() {
     if (
       Number.isFinite(audio.duration) &&
@@ -338,7 +360,6 @@ updateLightTrail();
   progress.addEventListener("change", seekAudio);
   progress.addEventListener("pointerup", seekAudio);
 
-  /* Synchronize controls with the actual audio state. */
   audio.addEventListener("play", () => {
     updatePlayButtons(true);
     status.textContent = "الأغنية تعمل الآن 🎶";
@@ -350,7 +371,6 @@ updateLightTrail();
 
   audio.addEventListener("ended", () => {
     updatePlayButtons(false);
-
     progress.value = "0";
 
     if (currentTimeLabel) {
@@ -364,15 +384,13 @@ updateLightTrail();
     updatePlayButtons(false);
 
     status.textContent =
-      "ملف الأغنية غير موجود أو تعذر تحميله. راجع اسم الملف ومكانه.";
+      "ملف الأغنية لم يُحمّل. راجع اسم الملف ومكانه داخل المستودع.";
+
+    console.error(
+      "Audio error:",
+      audio.error ? audio.error.code : "Unknown audio error"
+    );
   });
 
-  /*
-   * Important:
-   * Music does not start automatically.
-   * The visitor chooses when to play it.
-   *
-   * The envelope button is handled only once above.
-   * It no longer automatically scrolls away after opening.
-   */
+  /* Do not start music automatically. */
 })();
