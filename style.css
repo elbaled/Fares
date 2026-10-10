@@ -283,3 +283,60 @@ footer{text-align:center;padding:18px;color:#8c7859;background:#090707;font-size
     animation: none;
   }
 }
+
+/* =========================================
+   Journey Navigation Buttons
+   ========================================= */
+
+.journey-next-button {
+  display: block;
+  width: min(100% - 32px, 360px);
+  margin: 28px auto 36px;
+  min-height: 54px;
+  padding: 14px 20px;
+  color: #1b1007;
+  background: linear-gradient(135deg, #f8e3a2, #d2a84d);
+  border: 1px solid rgba(255, 232, 173, 0.85);
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.7;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
+}
+
+.journey-next-button:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.06);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.journey-next-button:active {
+  transform: translateY(0);
+}
+
+.journey-next-button:focus-visible {
+  outline: 3px solid #fff0bd;
+  outline-offset: 4px;
+}
+
+#openEnvelope:disabled {
+  opacity: 0.85;
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey-next-button {
+    transition: none;
+  }
+
+  .journey-next-button:hover {
+    transform: none;
+  }
+}
+
