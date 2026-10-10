@@ -426,3 +426,638 @@ footer{text-align:center;padding:18px;color:#8c7859;background:#090707;font-size
   }
 }
 
+
+/* =========================================
+    FINAL CINEMATIC INTRO
+   Fares Wedding Invitation
+   أضف هذا الجزء في نهاية style.css
+   ========================================= */
+
+body.intro-locked {
+  overflow: hidden !important;
+  height: 100%;
+}
+
+.cinematic-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  isolation: isolate;
+  color: #fff0ce;
+  background:
+    radial-gradient(ellipse at 50% 45%, #38251b 0%, #17100e 40%, #030303 100%);
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity .85s ease,
+    visibility .85s ease;
+}
+
+.cinematic-intro[hidden] {
+  display: none !important;
+}
+
+.cinematic-intro::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(221, 170, 86, .13), transparent 45%),
+    radial-gradient(ellipse at 12% 80%, rgba(95, 126, 147, .13), transparent 40%);
+  animation: introAtmosphere 8s ease-in-out infinite alternate;
+}
+
+.cinematic-intro::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  z-index: 20;
+  border: 1px solid rgba(233, 199, 120, .32);
+  pointer-events: none;
+}
+
+.intro-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 25%, rgba(0, 0, 0, .65) 100%),
+    linear-gradient(0deg, rgba(0, 0, 0, .35), transparent 35%, rgba(0, 0, 0, .35));
+}
+
+.intro-opening {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 3;
+  text-align: center;
+  animation: introOpeningExit 1s ease-in 2.2s forwards;
+}
+
+.intro-brand {
+  margin: 0;
+  color: #e9c778;
+  font-family: "Amiri", serif;
+  font-size: clamp(25px, 6vw, 43px);
+  font-weight: 700;
+  text-shadow: 0 0 28px rgba(233, 199, 120, .4);
+  opacity: 0;
+  animation: introBrandReveal 1.2s ease-out .35s forwards;
+}
+
+.intro-caption {
+  margin: 24px 16px 0;
+  color: rgba(255, 240, 206, .8);
+  font-size: clamp(12px, 3vw, 16px);
+  letter-spacing: 1px;
+  opacity: 0;
+  animation: introCaptionReveal .8s ease-out 1s forwards;
+}
+
+.intro-flash {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff8df;
+  box-shadow:
+    0 0 20px 8px rgba(255, 230, 166, .9),
+    0 0 80px 30px rgba(228, 168, 77, .65),
+    0 0 180px 65px rgba(200, 133, 52, .2);
+  transform: translate(-50%, -50%) scale(.1);
+  opacity: 0;
+  animation: introFlashBurst .7s ease-out 1.8s forwards;
+}
+
+.intro-shockwave {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 50px;
+  height: 50px;
+  border: 1px solid rgba(255, 226, 163, .8);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(.1);
+  opacity: 0;
+  animation: introShockwave 1.3s ease-out 1.85s forwards;
+}
+
+.intro-flight {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  animation: introFlightAppear .2s linear 2.25s forwards;
+}
+
+.intro-speed-lines {
+  position: absolute;
+  top: 45%;
+  left: -40%;
+  width: 190%;
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, .08) 24%,
+    rgba(219, 239, 248, .85) 45%,
+    #fff2c0 50%,
+    rgba(214, 169, 89, .7) 54%,
+    transparent 76%
+  );
+  filter: blur(2px) drop-shadow(0 0 14px rgba(239, 201, 121, .85));
+  transform: rotate(-12deg) scaleX(.1);
+  transform-origin: center;
+  animation: introSpeedFlight 2s cubic-bezier(.22, .7, .28, 1) 2.3s forwards;
+}
+
+.intro-light-trail {
+  position: absolute;
+  top: 45%;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff9dc;
+  box-shadow:
+    0 0 10px 5px #fff3c2,
+    0 0 28px 13px rgba(235, 192, 104, .75),
+    0 0 70px 20px rgba(142, 188, 215, .23);
+  opacity: 0;
+  animation: introLightFlight 2s cubic-bezier(.22, .7, .28, 1) 2.3s forwards;
+}
+
+.intro-wind {
+  position: absolute;
+  width: 45vw;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(206, 231, 242, .8), transparent);
+  filter: blur(1px);
+  opacity: 0;
+}
+
+.intro-wind-one {
+  top: 42%;
+  left: -55%;
+  transform: rotate(-15deg);
+  animation: introWindFlight 1.5s ease-out 2.45s forwards;
+}
+
+.intro-wind-two {
+  top: 49%;
+  left: -55%;
+  transform: rotate(-9deg);
+  animation: introWindFlight 1.7s ease-out 2.55s forwards;
+}
+
+.intro-impact {
+  position: absolute;
+  z-index: 6;
+  top: 45%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+  pointer-events: none;
+  animation: introImpactFlash .9s ease-out 4.05s forwards;
+}
+
+.intro-impact span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ffe7a2;
+  box-shadow: 0 0 12px #edbd63;
+  animation: introSpark 1s ease-out 4.05s both;
+}
+
+.intro-impact span:nth-child(1) {
+  --spark-x: -65px;
+  --spark-y: -38px;
+}
+
+.intro-impact span:nth-child(2) {
+  --spark-x: 55px;
+  --spark-y: -45px;
+}
+
+.intro-impact span:nth-child(3) {
+  --spark-x: 68px;
+  --spark-y: 20px;
+}
+
+.intro-impact span:nth-child(4) {
+  --spark-x: -48px;
+  --spark-y: 55px;
+}
+
+.intro-impact span:nth-child(5) {
+  --spark-x: 8px;
+  --spark-y: -75px;
+}
+
+.intro-plaque {
+  position: relative;
+  z-index: 8;
+  width: min(520px, calc(100% - 54px));
+  padding: clamp(30px, 7vw, 55px) 20px;
+  text-align: center;
+  border: 2px solid #d0a456;
+  outline: 1px solid rgba(232, 193, 115, .32);
+  outline-offset: 7px;
+  border-radius: 4px;
+  background:
+    linear-gradient(100deg, rgba(255, 255, 255, .035), transparent 20%, rgba(0, 0, 0, .24) 80%),
+    repeating-linear-gradient(
+      0deg,
+      #4c2c19 0,
+      #4c2c19 3px,
+      #55331e 4px,
+      #382014 8px,
+      #5b3820 10px
+    );
+  box-shadow:
+    0 0 0 15px rgba(0, 0, 0, .12),
+    0 25px 80px rgba(0, 0, 0, .65),
+    inset 0 0 35px rgba(0, 0, 0, .45),
+    0 0 45px rgba(225, 173, 83, .1);
+  transform: perspective(900px) rotateX(7deg) scale(.65);
+  opacity: 0;
+  visibility: hidden;
+  animation: introPlaqueReveal 1.2s cubic-bezier(.16, 1, .3, 1) 4.25s forwards;
+}
+
+.intro-plaque::before,
+.intro-plaque::after {
+  content: "✦";
+  position: absolute;
+  top: 12px;
+  color: #e8c478;
+  font-size: 17px;
+  text-shadow: 0 0 10px rgba(233, 199, 120, .55);
+}
+
+.intro-plaque::before {
+  right: 14px;
+}
+
+.intro-plaque::after {
+  left: 14px;
+}
+
+.plaque-eyebrow {
+  margin: 0 0 12px;
+  color: #e6c27d;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.plaque-ornament {
+  margin: 0 0 12px;
+  color: rgba(233, 199, 120, .8);
+  font-size: 12px;
+}
+
+.intro-plaque h1 {
+  margin: 0;
+  color: #fff0c7;
+  font-family: "Amiri", serif;
+  font-size: clamp(38px, 9vw, 66px);
+  line-height: 1.4;
+  text-shadow:
+    0 3px 0 #3b1e0f,
+    0 0 22px rgba(255, 211, 128, .3);
+}
+
+.plaque-groom {
+  margin: 8px 0 24px;
+  color: #e5c98c;
+  font-size: clamp(12px, 3vw, 16px);
+}
+
+#enterInvitation {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 12px 26px;
+  border: 1px solid #fff0b8;
+  border-radius: 3px;
+  color: #201208;
+  background: linear-gradient(135deg, #ffe8a7, #c28b3e);
+  font-family: "Cairo", sans-serif;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, .3);
+  transition: transform .25s ease, filter .25s ease, box-shadow .25s ease;
+}
+
+#enterInvitation:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.08);
+  box-shadow: 0 10px 35px rgba(233, 199, 120, .25);
+}
+
+#enterInvitation:focus-visible,
+#skipIntro:focus-visible {
+  outline: 3px solid #fff2c9;
+  outline-offset: 5px;
+}
+
+.intro-skip {
+  position: absolute;
+  z-index: 30;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  right: 50%;
+  transform: translateX(50%);
+  padding: 10px 18px;
+  border: 1px solid rgba(233, 199, 120, .45);
+  border-radius: 50px;
+  color: #ead6ac;
+  background: rgba(0, 0, 0, .48);
+  font-family: "Cairo", sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: background .2s ease, color .2s ease;
+}
+
+.intro-skip:hover {
+  color: #fff0ce;
+  background: rgba(110, 76, 35, .65);
+}
+
+.intro-bottom-mark {
+  position: absolute;
+  z-index: 21;
+  bottom: 20px;
+  left: 22px;
+  color: rgba(233, 199, 120, .5);
+  font-family: sans-serif;
+  font-size: 9px;
+  letter-spacing: 3px;
+  pointer-events: none;
+}
+
+.intro-exit {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+body.intro-finished {
+  overflow-x: hidden;
+}
+
+@keyframes introAtmosphere {
+  from {
+    transform: scale(1) translate3d(-1%, 0, 0);
+  }
+  to {
+    transform: scale(1.12) translate3d(1%, -1%, 0);
+  }
+}
+
+@keyframes introBrandReveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    letter-spacing: 5px;
+    filter: blur(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    letter-spacing: 0;
+    filter: blur(0);
+  }
+}
+
+@keyframes introCaptionReveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: .85;
+    transform: translateY(0);
+  }
+}
+
+@keyframes introFlashBurst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.1);
+  }
+  25% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(2.4);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(8);
+  }
+}
+
+@keyframes introShockwave {
+  0% {
+    opacity: .8;
+    transform: translate(-50%, -50%) scale(.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(17);
+  }
+}
+
+@keyframes introOpeningExit {
+  0% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(8px);
+    visibility: hidden;
+  }
+}
+
+@keyframes introFlightAppear {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes introSpeedFlight {
+  0% {
+    opacity: 0;
+    transform: translateX(-8%) rotate(-12deg) scaleX(.1);
+  }
+  15% {
+    opacity: 1;
+    transform: translateX(0) rotate(-12deg) scaleX(.65);
+  }
+  80% {
+    opacity: .9;
+    transform: translateX(42%) rotate(-12deg) scaleX(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(55%) rotate(-12deg) scaleX(.5);
+  }
+}
+
+@keyframes introLightFlight {
+  0% {
+    opacity: 0;
+    left: -5%;
+    top: 48%;
+  }
+  10% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+    left: 83%;
+    top: 43%;
+  }
+  100% {
+    opacity: 0;
+    left: 95%;
+    top: 45%;
+  }
+}
+
+@keyframes introWindFlight {
+  0% {
+    opacity: 0;
+    left: -55%;
+  }
+  20% {
+    opacity: .8;
+  }
+  100% {
+    opacity: 0;
+    left: 110%;
+  }
+}
+
+@keyframes introImpactFlash {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.2);
+  }
+  25% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(3.5);
+  }
+}
+
+@keyframes introSpark {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--spark-x), var(--spark-y)) scale(.1);
+  }
+}
+
+@keyframes introPlaqueReveal {
+  0% {
+    opacity: 0;
+    visibility: visible;
+    transform: perspective(900px) rotateX(20deg) scale(.65) translateY(25px);
+    filter: blur(10px);
+  }
+  70% {
+    opacity: 1;
+    transform: perspective(900px) rotateX(0) scale(1.03) translateY(0);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+    transform: perspective(900px) rotateX(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@media (max-width: 560px) {
+  .intro-plaque {
+    width: calc(100% - 42px);
+    padding: 34px 14px;
+  }
+
+  .intro-plaque h1 {
+    font-size: clamp(36px, 10vw, 52px);
+  }
+
+  .intro-bottom-mark {
+    left: 12px;
+    bottom: 14px;
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+
+  .intro-skip {
+    bottom: max(18px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-intro::before,
+  .intro-brand,
+  .intro-caption,
+  .intro-flash,
+  .intro-shockwave,
+  .intro-opening,
+  .intro-flight,
+  .intro-speed-lines,
+  .intro-light-trail,
+  .intro-wind,
+  .intro-impact,
+  .intro-impact span,
+  .intro-plaque {
+    animation: none !important;
+  }
+
+  .intro-opening {
+    display: none;
+  }
+
+  .intro-plaque {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    filter: none;
+  }
+
+  .intro-flight,
+  .intro-impact {
+    display: none;
+  }
+}
+
