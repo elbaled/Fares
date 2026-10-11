@@ -1061,3 +1061,164 @@ body.intro-finished {
   }
 }
 
+
+/* =====================================
+   مواعيد الفرح - تصميم المثلث الذهبي
+   ===================================== */
+
+.wedding-dates-triangle {
+  width: min(100%, 520px);
+  margin: 38px auto 30px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    "lunch lunch"
+    "henna wedding";
+  justify-items: center;
+  align-items: start;
+  column-gap: 12px;
+  row-gap: 24px;
+  position: relative;
+  isolation: isolate;
+}
+
+/* الدائرة الأولى في أعلى المنتصف */
+.wedding-dates-triangle .date-lunch {
+  grid-area: lunch;
+}
+
+/* الدائرتان في الصف السفلي */
+.wedding-dates-triangle .date-henna {
+  grid-area: henna;
+}
+
+.wedding-dates-triangle .date-wedding {
+  grid-area: wedding;
+}
+
+/* توحيد أحجام الدوائر */
+.wedding-dates-triangle .date-seal {
+  box-sizing: border-box;
+  width: min(100%, 178px);
+  aspect-ratio: 1 / 1;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  padding: 14px 9px;
+  border: 1px solid rgba(224, 184, 103, 0.9);
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(100, 57, 29, 0.32),
+      rgba(20, 12, 11, 0.97) 72%
+    );
+  box-shadow:
+    0 0 0 5px rgba(224, 184, 103, 0.07),
+    inset 0 0 18px rgba(224, 184, 103, 0.08),
+    0 8px 28px rgba(0, 0, 0, 0.24);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+/* إبراز دائرة الغداء العلوية */
+.wedding-dates-triangle .date-lunch {
+  width: min(100%, 190px);
+}
+
+/* أرقام التواريخ */
+.wedding-dates-triangle .date-seal strong {
+  color: #f8df9f;
+  font-family: "Amiri", serif;
+  font-size: clamp(38px, 9vw, 54px);
+  line-height: 1.05;
+  font-weight: 700;
+}
+
+/* أيام وتواريخ */
+.wedding-dates-triangle .date-seal > span {
+  color: #e4c98e;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* وصف المناسبة */
+.wedding-dates-triangle .date-seal p {
+  color: #f7e8c6;
+  font-family: "Cairo", sans-serif;
+  font-size: 11px;
+  line-height: 1.6;
+  font-weight: 700;
+  margin: 3px 0 0;
+  max-width: 95%;
+}
+
+/* خطوط ذهبية تصل الدوائر بشكل مثلث */
+.wedding-dates-triangle::before,
+.wedding-dates-triangle::after {
+  content: "";
+  position: absolute;
+  top: 96px;
+  width: 34%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(224, 184, 103, 0.7),
+    transparent
+  );
+  transform-origin: center;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.wedding-dates-triangle::before {
+  right: 18%;
+  transform: rotate(35deg);
+}
+
+.wedding-dates-triangle::after {
+  left: 18%;
+  transform: rotate(-35deg);
+}
+
+/* الهواتف الصغيرة */
+@media (max-width: 380px) {
+  .wedding-dates-triangle {
+    column-gap: 6px;
+    row-gap: 20px;
+  }
+
+  .wedding-dates-triangle .date-seal {
+    width: 100%;
+    padding: 10px 5px;
+  }
+
+  .wedding-dates-triangle .date-lunch {
+    width: 170px;
+  }
+
+  .wedding-dates-triangle .date-seal strong {
+    font-size: 38px;
+  }
+
+  .wedding-dates-triangle .date-seal > span {
+    font-size: 10px;
+  }
+
+  .wedding-dates-triangle .date-seal p {
+    font-size: 10px;
+  }
+
+  .wedding-dates-triangle::before,
+  .wedding-dates-triangle::after {
+    top: 86px;
+  }
+}
+
