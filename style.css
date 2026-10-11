@@ -1252,3 +1252,76 @@ body.intro-finished {
   margin: 7px 0;
   line-height: 1.8;
 }
+
+/* ===== Royal Blue & Gold Wedding Theme ===== */
+
+:root {
+  --royal-blue: #071a38;
+  --deep-blue: #030d20;
+  --gold: #d4af37;
+  --light-gold: #f5df9b;
+  --ivory: #fff8e7;
+}
+
+/* خلفية الموقع */
+body {
+  background-color: var(--deep-blue);
+  color: var(--ivory);
+}
+
+/* العناوين */
+h1,
+h2,
+h3,
+.eyebrow,
+.closing-star {
+  color: var(--light-gold);
+}
+
+/* الكلمات المميزة */
+em,
+strong {
+  color: var(--gold);
+}
+
+/* الإطارات والخطوط الذهبية */
+.closing-event,
+.card,
+.frame,
+.gold-border {
+  border-color: var(--gold);
+}
+
+/* أزرار الموقع */
+button,
+.back-top,
+a.button {
+  background: var(--royal-blue);
+  color: var(--light-gold);
+  border: 1px solid var(--gold);
+}
+
+/* مواعيد الفرح */
+.closing-event {
+  background: linear-gradient(
+    145deg,
+    #0b2348,
+    #06132b
+  );
+  border: 1px solid var(--gold);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.12);
+}
+
+/* تأثير مرور الماوس */
+.back-top:hover,
+button:hover,
+a.button:hover {
+  background: var(--gold);
+  color: var(--deep-blue);
+}
+
+/* التذييل */
+footer {
+  color: var(--light-gold);
+  border-top: 1px solid var(--gold);
+}
