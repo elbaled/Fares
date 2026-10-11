@@ -1222,3 +1222,33 @@ body.intro-finished {
   }
 }
 
+.closing-schedule {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  max-width: 480px;
+  margin: 30px auto;
+}
+
+.closing-event {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 20px 15px;
+  text-align: center;
+  border: 1px solid #c5a04d;
+  border-radius: 14px;
+  background: rgba(20, 45, 80, 0.35);
+}
+
+.closing-event h3 {
+  color: #d8b65c;
+  margin: 0 0 12px;
+  font-size: 1.15rem;
+}
+
+.closing-event p {
+  margin: 7px 0;
+  line-height: 1.8;
+}
