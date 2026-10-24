@@ -1072,8 +1072,8 @@ body.intro-finished {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-template-areas:
-    "lunch lunch"
-    "henna wedding";
+    "lunch henna"
+    "katb wedding";
   justify-items: center;
   align-items: start;
   column-gap: 12px;
@@ -1082,19 +1082,11 @@ body.intro-finished {
   isolation: isolate;
 }
 
-/* الدائرة الأولى في أعلى المنتصف */
-.wedding-dates-triangle .date-lunch {
-  grid-area: lunch;
-}
+.wedding-dates-triangle .date-lunch { grid-area: lunch; width: min(100%, 178px); }
+.wedding-dates-triangle .date-henna { grid-area: henna; }
+.wedding-dates-triangle .date-katb { grid-area: katb; }
+.wedding-dates-triangle .date-wedding { grid-area: wedding; }
 
-/* الدائرتان في الصف السفلي */
-.wedding-dates-triangle .date-henna {
-  grid-area: henna;
-}
-
-.wedding-dates-triangle .date-wedding {
-  grid-area: wedding;
-}
 
 /* توحيد أحجام الدوائر */
 .wedding-dates-triangle .date-seal {
