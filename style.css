@@ -1665,3 +1665,20 @@ footer span {
 .envelope-caption {
   color: #dce5f2 !important;
 }
+
+/* العلامة المائية - اسم المهندس */
+.developer-watermark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-35deg);
+  font-family: "Amiri", serif; /* نفس خط الموقع الأنيق */
+  font-size: clamp(80px, 15vw, 180px);
+  font-weight: bold;
+  color: #e9c778; /* اللون الذهبي */
+  opacity: 0.04; /* شفافية خفيفة جداً 4% عشان ميزعجش العين */
+  white-space: nowrap;
+  pointer-events: none; /* مهم جداً عشان ميمنعش الضغط على الأزرار */
+  z-index: 5; /* يظهر فوق الخلفية وتحت الكلام الأساسي */
+  user-select: none;
+}
